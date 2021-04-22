@@ -7,9 +7,9 @@ const WarehouseModel= require('../models/warehouse');
 const movementModel= require('../models/productMovement');
 const stockModel= require('../models/productStock');
 
-const sequelize = new Sequelize('bidones', 'root', 'redneh0277', {
+const sequelize = new Sequelize('bphoyfowf8rcsmu5apww', 'uahjdwgt58mhekas', 'CKwokzMpfaAijUhJwQZw', {
     
-    host: 'localhost',
+    host: 'bphoyfowf8rcsmu5apww-mysql.services.clever-cloud.com',
     dialect: 'mysql'
 
 
@@ -26,10 +26,11 @@ const stock= stockModel(sequelize, Sequelize);
 user.hasMany(movement);
 
 //un producto puede tener muchos movimientos
-product.hasMany(movement);
+product.hasMany(movement, { foreignKey: 'productId'});
 
 // un producto puede tener muchos cambios de stock
-product.hasMany(stock);
+product.hasMany(stock );
+stock.belongsTo(product);
 
 //un deposito para distintos movimientos
 warehouse.hasMany(movement);
