@@ -30,7 +30,7 @@ product.hasMany(movement, { foreignKey: 'productId'});
 
 // un producto puede tener muchos cambios de stock
 product.hasMany(stock );
-stock.belongsTo(product);
+
 
 //un deposito para distintos movimientos
 warehouse.hasMany(movement);
@@ -42,7 +42,7 @@ stock.belongsTo(warehouse);
 
 
 
-sequelize.sync({force: false})
+sequelize.sync({force: true})
 .then(() => {
     console.log('Tablas sincronizadas')
 });

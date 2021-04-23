@@ -5,18 +5,9 @@ const {checkUbication, checkMovement, checkProtocole, checkQuantity, checkProduc
 const {check, validationResult, body} = require('express-validator');
 
 
-app.get('/movements/:id', async (req, res) => {
+app.get('/movements', async (req, res) => {
 
-  /* const movements =   await movement.findAll();
-
-    res.json(movements)*/
-
-    const idProduct = await product.findAll({attributes: ['idProduct'],where: {codProduct: req.params.id } })
-    .then(idpro => {res.json(idpro[0].idProduct)})
-    .catch(err=> { res.json(err)})
-    
-    console.log(idProduct[0].idProduct)
-
+const movements =   await movement.findAll().then(allMovements => {res.json(allMovements)})
     
 
 });
@@ -30,9 +21,9 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantit
    
     const body = req.body;
   
-    const idProduct = await product.findAll({attributes: ['idProduct'],where: {codProduct: body.product } })
+   /*  const idProduct = await product.findAll({attributes: ['idProduct'],where: {codProduct: body.product } })
     .then(idpro => { movement.create({
-        productIdProduct : idpro[0].idProduct,
+        productId: idpro[0].idProduct,
         protocole : body.protocole,
         Quantity: body.quantity,
         Measure: body.measure,
@@ -40,11 +31,11 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantit
         warehouseId: body.warehouse,
         tipeMovement: body.tipemovement})})
     .then(movement => {res.json('movimiento registrado')})
-    .catch(err=> { res.json(err)})
+    .catch(err=> { res.json(err)})*/
 
     
-  /* const movementNew= movement.create({
-        productIdProduct : idProduct,
+    const movementNew= movement.create({
+        productId : body.product,
         protocole : body.protocole,
         Quantity: body.quantity,
         Measure: body.measure,
@@ -55,7 +46,7 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantit
     }).then(movement => {res.json(movement)})
        .catch(error => {
            res.json(error)
-       }) */
+       });
 
     
     
@@ -67,7 +58,7 @@ app.put('/movements/:id', [checkMeasure, checkProduct, checkProtocole, checkQuan
     const body = req.body;
 
     await movement.update({ 
-        productIdProduct : body.product,
+        productId : body.product,
         protocole : body.protocole,
         Quantity: body.quantity,
         Measure: body.measure,
