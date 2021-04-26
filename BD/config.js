@@ -29,7 +29,7 @@ user.hasMany(movement);
 product.hasMany(movement, { foreignKey: 'productId'});
 
 // un producto puede tener muchos cambios de stock
-product.hasMany(stock );
+product.hasMany(stock, { foreignKey: 'productId'} );
 
 
 //un deposito para distintos movimientos

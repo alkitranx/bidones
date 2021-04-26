@@ -33,20 +33,39 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantit
     .then(movement => {res.json('movimiento registrado')})
     .catch(err=> { res.json(err)})*/
 
-    
-    const movementNew= movement.create({
-        productId : body.product,
-        protocole : body.protocole,
-        Quantity: body.quantity,
-        Measure: body.measure,
-        userId: body.user,
-        warehouseId: body.warehouse,
-        tipeMovement: body.tipemovement
+    const egresoMovement = -body.quantity
+       
+     if(body.tipemovement === 'EGRESO'){
+        movement.create({
+            productId : body.product,
+            protocole : body.protocole,
+            Quantity: egresoMovement,
+            Measure: body.measure,
+            userId: body.user,
+            warehouseId: body.warehouse,
+            tipeMovement: body.tipemovement}).then(movement => {res.json(movement)})
+            .catch(error => {
+                res.json(error)
+            })
 
-    }).then(movement => {res.json(movement)})
-       .catch(error => {
-           res.json(error)
-       });
+
+    }
+    if(body.tipemovement === 'INGRESO'){
+        movement.create({
+            productId : body.product,
+            protocole : body.protocole,
+            Quantity: body.quantity,
+            Measure: body.measure,
+            userId: body.user,
+            warehouseId: body.warehouse,
+            tipeMovement: body.tipemovement}).then(movement => {res.json(movement)})
+            .catch(error => {
+                res.json(error)
+            })
+
+
+    }
+    
 
     
     
