@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();0 
 const {movement, product} = require('../BD/config');
-const {checkUbication, checkMovement, checkProtocole, checkQuantity, checkProduct, checkMeasure} = require('../validations/validator')
+const {checkUbication, checkMovement, checkProtocol, checkQuantity, checkProduct, checkMeasure} = require('../validations/validator')
 const {check, validationResult, body} = require('express-validator');
 
 
@@ -12,7 +12,7 @@ const movements =   await movement.findAll().then(allMovements => {res.json(allM
 
 });
 
-app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantity, checkUbication, checkMovement], async (req, res) => {
+app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity, checkUbication, checkMovement], async (req, res) => {
 
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -34,14 +34,14 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantit
     .catch(err=> { res.json(err)})*/
 
     
-    const movementNew= movement.create({
+    const movementNew= await movement.create({
         productId : body.product,
-        protocole : body.protocole,
-        Quantity: body.quantity,
-        Measure: body.measure,
+        protocol : body.protocol,
+        quantity: body.quantity,
+        measure: body.measure,
         userId: body.user,
         warehouseId: body.warehouse,
-        tipeMovement: body.tipemovement
+        typeMovement: body.typemovement
 
     }).then(movement => {res.json(movement)})
        .catch(error => {
@@ -52,19 +52,19 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocole, checkQuantit
     
 });
 
-app.put('/movements/:id', [checkMeasure, checkProduct, checkProtocole, checkQuantity, checkUbication, checkMovement] ,async (req, res) => {
+app.put('/movements/:id', [checkMeasure, checkProduct, checkProtocol, checkQuantity, checkUbication, checkMovement] ,async (req, res) => {
 
     const id = req.params.id;
     const body = req.body;
 
     await movement.update({ 
         productId : body.product,
-        protocole : body.protocole,
-        Quantity: body.quantity,
-        Measure: body.measure,
+        protocol : body.protocol,
+        quantity: body.quantity,
+        measure: body.measure,
         userId: body.user,
         warehouseId: body.warehouse,
-        tipeMovement: body.tipemovement}, 
+        typeMovement: body.tipemovement}, 
         {where: {id: id}}).then(updateMovement => res.json(updateMovement))
         .catch(error => res.json(error))
 

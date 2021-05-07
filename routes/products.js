@@ -2,7 +2,7 @@ const express = require ('express');
 const app = express();
 const { product } = require('../BD/config');
 const {check, validationResult} = require('express-validator');
-const { checkTipe, checkCode, checkDescription } = require('../validations/validator');
+const { checkType, checkCode, checkDescription } = require('../validations/validator');
 
 app.get('/products', async (req, res) => {
 
@@ -18,7 +18,7 @@ app.get('/products', async (req, res) => {
 
 
 
-app.post('/product',[ checkTipe, checkCode, checkDescription] ,async (req, res) => {
+app.post('/product',[ checkType, checkCode, checkDescription] ,async (req, res) => {
    
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -34,7 +34,7 @@ app.post('/product',[ checkTipe, checkCode, checkDescription] ,async (req, res) 
    let createProduct = await product.create({
        typeProduct : body.tipo,
        codProduct : body.codigo,
-       descript: body.descripcion
+       description: body.descripcion
    }).then(createProduct => {
      res.json(createProduct);
    }).catch(err => {
@@ -62,7 +62,7 @@ app.put('/product/:code', [checkTipe, checkCode, checkDescription], async (req, 
   let modifyUser = await product.update({
     typeProduct : body.tipo,
     codProduct : body.codigo,
-    descript: body.descripcion
+    description: body.descripcion
 }, {where:{codProduct: code}}).then(modifyUser => {
   res.json(modifyUser);
 }).catch(err => {

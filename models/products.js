@@ -15,7 +15,7 @@ module.exports = (sequelize, type) => {
             allowNull: false,
             unique: true //necesito cambiar el mensaje de error que se muestra cuando aplica esto//
         },
-        descript: {
+        description: {
             type: type.STRING,
             allowNull: false           
         }           

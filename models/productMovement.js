@@ -7,20 +7,20 @@ module.exports = (sequelize, type) => {
             autoIncrement: true
         },
 
-        Measure: {
+        measure: {
             type: type.STRING,
             allowNull: false
         },
-        Quantity: {
+        quantity: {
             type: type.INTEGER,
             allowNull: false
         
         },
-        tipeMovement: {
+        typeMovement: {
             type: type.STRING,
             allowNull: false            
         },
-        protocole: {
+        protocol: {
             type: type.STRING,
             allowNull: false
         }

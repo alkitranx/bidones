@@ -3,7 +3,7 @@ const app = express();
 const {user} = require('../BD/config');
 const bcrypt = require('bcrypt');
 const {body, validationResult, params} = require('express-validator');
-const {checkEmail, checkName, checkPassword, checkSurname, checkUnique} = require('../validations/validator');
+const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/validator');
 const { QueryTypes } = require('sequelize');
 
 
@@ -37,7 +37,7 @@ app.post('/signup',[ checkName, checkPassword, checkSurname, checkEmail], async 
   let UserCreate = await user.create({
 
   name: body.name,
-  surname: body.surname,
+  lastName: body.lastName,
   email: body.email,
   password: bcrypt.hashSync(body.password,10),
   role: body.role

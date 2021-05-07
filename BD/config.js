@@ -4,8 +4,8 @@ const { QueryTypes } = require('sequelize')
 const ProductsModel = require('../models/products');
 const UsersModel= require('../models/users');
 const WarehouseModel= require('../models/warehouse');
-const movementModel= require('../models/productMovement');
-const stockModel= require('../models/productStock');
+const MovementModel= require('../models/productMovement');
+const StockModel= require('../models/productStock');
 
 const sequelize = new Sequelize('bphoyfowf8rcsmu5apww', 'uahjdwgt58mhekas', 'CKwokzMpfaAijUhJwQZw', {
     
@@ -17,8 +17,8 @@ const sequelize = new Sequelize('bphoyfowf8rcsmu5apww', 'uahjdwgt58mhekas', 'CKw
 const product = ProductsModel(sequelize, Sequelize);
 const user = UsersModel(sequelize, Sequelize);
 const warehouse  = WarehouseModel(sequelize, Sequelize);
-const movement= movementModel(sequelize, Sequelize);
-const stock= stockModel(sequelize, Sequelize);
+const movement= MovementModel(sequelize, Sequelize);
+const stock= StockModel(sequelize, Sequelize);
 
 //asociaciones entre tablas
 

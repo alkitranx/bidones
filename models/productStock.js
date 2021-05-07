@@ -14,11 +14,11 @@ module.exports= (sequelize, type) => {
             type: type.STRING,
             allowNull: false
         },
-        Measure:{
+        measure:{
             type: type.STRING,
             allowNull: false
         },
-        Quantity: {
+        quantity: {
             type: type.INTEGER,
             allowNull: false
         

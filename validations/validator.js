@@ -5,7 +5,7 @@ const { QueryTypes} = require('sequelize');
 const {user, sequelize} = require('../BD/config');
 
 // validaciones para products//
-const checkTipe = check('tipo', ' el tipo de producto es obligatorio y debe contar con 2 caracteres').not() .isEmpty() .isLength({min: 2, max: 2})
+const checkType = check('tipo', ' el tipo de producto es obligatorio y debe contar con 2 caracteres').not() .isEmpty() .isLength({min: 2, max: 2})
 const checkCode = check('codigo', 'el codigo es un campo obligatorio').not() .isEmpty()
 const checkDescription = check('descripcion', 'la descripcion no puede estar vacia').not() .isEmpty()
 
@@ -16,17 +16,17 @@ const checkWarehouse = check('name', 'el nombre es obligatorio y debe tener 6 ca
 //validaciones para usuario
 
 const checkName = check('name', ' el nombre es un dato obligatorio').not().isEmpty();
-const checkSurname = check('surname', ' el apellido es un dato obligatorio').not().isEmpty();
+const checkLastname = check('lastname', ' el apellido es un dato obligatorio').not().isEmpty();
 const checkEmail = check('email', ' el email es un dato obligatorio').isEmail() .not().isEmpty() ;
 const checkPassword = check('password', ' la contraseña debe tener minimo 6 caracter').not().isEmpty() .isLength({min:6});
 
 
 //validaciones para tabla movements
 const checkProduct = check('product', ' el codigo de producto es un dato obligatorio').not().isEmpty();
-const checkProtocole = check('protocole', ' el campo protocolo no puede estar vacio').not().isEmpty();
+const checkProtocol = check('protocol', ' el campo protocolo no puede estar vacio').not().isEmpty();
 const checkQuantity = check('quantity', ' la cantidad no debe estar vacia').not().isEmpty();
 const checkUbication = check('warehouse', ' el campo ubicacion es obligatorio').not().isEmpty();
-const checkMovement = check('tipemovement', ' el tipo de movimiento es obligatorio').not().isEmpty();
+const checkMovement = check('typemovement', ' el tipo de movimiento es obligatorio').not().isEmpty();
 const checkMeasure = check('measure', ' el campo medida no puede estar vacio').not().isEmpty();
 
 
@@ -64,16 +64,16 @@ if(email === "hender5") {
 
 
 module.exports = {
-    checkTipe,
+    checkType,
     checkCode,
     checkDescription,
     checkWarehouse,
     checkName,
-    checkSurname,
+    checkLastname,
     checkEmail,
     checkPassword,
     checkProduct,
-    checkProtocole,
+    checkProtocol,
     checkQuantity,
     checkUbication,
     checkMovement,
