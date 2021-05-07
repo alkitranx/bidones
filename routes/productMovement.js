@@ -33,7 +33,40 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity
     .then(movement => {res.json('movimiento registrado')})
     .catch(err=> { res.json(err)})*/
 
+    const egresoMovement = -body.quantity
+       
+     if(body.tipemovement === 'EGRESO'){
+        movement.create({
+            productId : body.product,
+            protocole : body.protocole,
+            Quantity: egresoMovement,
+            Measure: body.measure,
+            userId: body.user,
+            warehouseId: body.warehouse,
+            tipeMovement: body.tipemovement}).then(movement => {res.json(movement)})
+            .catch(error => {
+                res.json(error)
+            })
+
+
+    }
+    if(body.tipemovement === 'INGRESO'){
+        movement.create({
+            productId : body.product,
+            protocole : body.protocole,
+            Quantity: body.quantity,
+            Measure: body.measure,
+            userId: body.user,
+            warehouseId: body.warehouse,
+            tipeMovement: body.tipemovement}).then(movement => {res.json(movement)})
+            .catch(error => {
+                res.json(error)
+            })
+
+
+    }
     
+<<<<<<< HEAD
     const movementNew= await movement.create({
         productId : body.product,
         protocol : body.protocol,
@@ -47,6 +80,8 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity
        .catch(error => {
            res.json(error)
        });
+=======
+>>>>>>> refs/remotes/origin/main
 
     
     
