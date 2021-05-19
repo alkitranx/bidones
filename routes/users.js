@@ -24,7 +24,7 @@ app.get('/listuser', async (req, res) => {
 });
 
 
-app.post('/signup',[ checkName, checkPassword, checkSurname, checkEmail], async (req, res) => {
+app.post('/signup',[ checkName, checkPassword, checkLastName, checkEmail], async (req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()){
       return res.status(400).json({errors: errors.array()})
@@ -56,7 +56,7 @@ app.post('/signup',[ checkName, checkPassword, checkSurname, checkEmail], async 
 
 })
 
-app.put('/signup/:email', [checkEmail, checkName, checkSurname] ,async (req, res) => {
+app.put('/signup/:email', [checkEmail, checkName, checkLastName] ,async (req, res) => {
 
   let email= req.params.email;
   let body = req.body;

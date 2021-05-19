@@ -16,7 +16,7 @@ const checkWarehouse = check('name', 'el nombre es obligatorio y debe tener 6 ca
 //validaciones para usuario
 
 const checkName = check('name', ' el nombre es un dato obligatorio').not().isEmpty();
-const checkLastname = check('lastname', ' el apellido es un dato obligatorio').not().isEmpty();
+const checkLastName = check('lastname', ' el apellido es un dato obligatorio').not().isEmpty();
 const checkEmail = check('email', ' el email es un dato obligatorio').isEmail() .not().isEmpty() ;
 const checkPassword = check('password', ' la contraseña debe tener minimo 6 caracter').not().isEmpty() .isLength({min:6});
 
@@ -69,7 +69,7 @@ module.exports = {
     checkDescription,
     checkWarehouse,
     checkName,
-    checkLastname,
+    checkLastName,
     checkEmail,
     checkPassword,
     checkProduct,

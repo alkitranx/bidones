@@ -48,7 +48,7 @@ app.post('/product',[ checkType, checkCode, checkDescription] ,async (req, res) 
      
   });
 
-app.put('/product/:code', [checkTipe, checkCode, checkDescription], async (req, res) => {
+app.put('/product/:code', [checkType, checkCode, checkDescription], async (req, res) => {
 
   const errors = validationResult(req);
   if(!errors.isEmpty()){

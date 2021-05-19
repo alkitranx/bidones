@@ -65,23 +65,7 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity
 
 
     }
-    
-<<<<<<< HEAD
-    const movementNew= await movement.create({
-        productId : body.product,
-        protocol : body.protocol,
-        quantity: body.quantity,
-        measure: body.measure,
-        userId: body.user,
-        warehouseId: body.warehouse,
-        typeMovement: body.typemovement
 
-    }).then(movement => {res.json(movement)})
-       .catch(error => {
-           res.json(error)
-       });
-=======
->>>>>>> refs/remotes/origin/main
 
     
     
