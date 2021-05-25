@@ -1,30 +1,36 @@
-module.exports = (sequelize, type) => {
+const {DataTypes} = require ('sequelize');
+
+module.exports = sequelize => {
     return sequelize.define('productMovement',{
         id: {
-            type: type.INTEGER,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true
         },
-
+        productId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        warehouseId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
         measure: {
-            type: type.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         quantity: {
-            type: type.INTEGER,
+            type: DataTypes.INTEGER,
             allowNull: false
-        
         },
-        typeMovement: {
-            type: type.STRING,
-            allowNull: false            
+        type: {
+            type: DataTypes.ENUM('input', 'output'),
+            allowNull: false,
         },
         protocol: {
-            type: type.STRING,
+            type: DataTypes.STRING,
             allowNull: false
-        }
-
-
+        },
     })
 }

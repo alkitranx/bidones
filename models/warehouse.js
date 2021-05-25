@@ -1,17 +1,18 @@
-module.exports = (sequelize, type) => {
+const {DataTypes} = require ('sequelize');
+
+module.exports = sequelize => {
     return sequelize.define('warehouse',{
         id: {
-            type: type.INTEGER,
+            type: DataTypes.INTEGER,
             primaryKey: true,
             allowNull: false,
             autoIncrement: true,
             unique: true
         },
-        nameContainer: {
-            type: type.STRING,
+        name: {
+            type: DataTypes.STRING,
             allowNull: false,
             unique: true
         }
     } )
-
 }

@@ -1,93 +1,54 @@
-const express = require ('express');
-const app = express();
-const {user} = require('../BD/config');
-const bcrypt = require('bcrypt');
-const {body, validationResult, params} = require('express-validator');
-const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/validator');
-const { QueryTypes } = require('sequelize');
+// global packages
+const express = require('express'),
+  app = express(),
+  bcrypt = require('bcrypt'),
+  {validationResult} = require('express-validator');
 
+// local resources
+const {userRepository} = require('../repositories'),
+  {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/validator');
 
-
-app.get('/listuser', async (req, res) => {
-
-  await user.findAll().then(allUser => {
-    res.json(allUser)
-  }).cath(err => {
-    res.json(err)
-  });
-
- 
-  
-
-  
-
+app.get('/users', (req, res) => {
+  return userRepository.findAll()
+    .then(userEntities => res.json(userEntities))
+    .catch(err => res.json(err));
 });
 
+app.post(
+  '/users',
+  [checkName, checkPassword, checkLastName, checkEmail],
+  (req, res) => {
+    const errors = validationResult(req);
 
-app.post('/signup',[ checkName, checkPassword, checkLastName, checkEmail], async (req, res) => {
-  const errors = validationResult(req);
-  if(!errors.isEmpty()){
+    if (!errors.isEmpty())
       return res.status(400).json({errors: errors.array()})
-  };
 
+    const body = req.body;
 
-  let body = req.body;
-
-
-  let UserCreate = await user.create({
-
-  name: body.name,
-  lastName: body.lastName,
-  email: body.email,
-  password: bcrypt.hashSync(body.password,10),
-  role: body.role
-  }).then(userChange => {
-    res.json(userChange)
-  }).catch(err => {
-    res.json(err)
-  })
-  
-
-
-
-
-
-
-
-})
-
-app.put('/signup/:email', [checkEmail, checkName, checkLastName] ,async (req, res) => {
-
-  let email= req.params.email;
-  let body = req.body;
- 
-
-  let userModify = await user.update({
-
-    name: body.name,
-    surname: body.surname,
-    email: body.email,
-  },{where:{email: email}}.then(userChange => {
-    res.json(userChange)
-  }).catch(err => {
-    res.json(err)
+    return userRepository.create({
+      name: body.name,
+      lastName: body.lastName,
+      email: body.email,
+      password: bcrypt.hashSync(body.password, 10),
+      role: body.role
+    }).then(userChange => res.json(userChange))
+      .catch(err => res.status(400).json(err))
   })
 
+app.put(
+  '/users/:id',
+  [checkEmail, checkName, checkLastName],
+  async (req, res) => {
+    const id = req.params.id,
+      body = req.body;
 
-)});
-
-app.delete('/signup/:email', async (req, res) => {
-
-  let email= req.params.email;
-
-  await user.destroy({where :{email: email}}).then(userDelete => {
-    res.json(userDelete)
-  }).catch(err => {
-    res.json(err)
+    return userRepository.update({
+        name: body.name,
+        surname: body.surname,
+        email: body.email,
+      }, {where: { id }}.then(userChange => res.json(userChange))
+        .catch(err => res.status(400).json(err))
+    )
   });
-
-
-
-})
 
 module.exports = app;

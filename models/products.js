@@ -1,23 +1,25 @@
-module.exports = (sequelize, type) => {
+const {DataTypes} = require ('sequelize');
+
+module.exports = sequelize => {
     return sequelize.define('product', {
-        idProduct: {
-            type: type.INTEGER,
+        id: {
+            type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
             allowNull: false
         },
-        typeProduct:{
-            type: type.STRING(2),
+        type:{
+            type: DataTypes.STRING(2),
             allowNull: false
             },
-        codProduct: {
-            type: type.STRING,
+        code: {
+            type: DataTypes.STRING,
             allowNull: false,
-            unique: true //necesito cambiar el mensaje de error que se muestra cuando aplica esto//
+            unique: true //@TODO necesito cambiar el mensaje de error que se muestra cuando aplica esto//
         },
         description: {
-            type: type.STRING,
-            allowNull: false           
-        }           
+            type: DataTypes.STRING,
+            allowNull: false
+        }
     })
 };
