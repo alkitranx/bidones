@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();0 
-const {movement, product} = require('../BD/config');
+const {movement, product} = require('../models/config');
 const {checkUbication, checkMovement, checkProtocol, checkQuantity, checkProduct, checkMeasure} = require('../validations/validator')
 const {check, validationResult, body} = require('express-validator');
 

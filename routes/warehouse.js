@@ -1,30 +1,31 @@
-const express = require('express');
-const app = express();
-const {warehouse} = require('../BD/config');
-const { checkWarehouse } = require('../validations/validator');
-const {check, validationResult} = require('express-validator'); 
+// Global packages
 
-app.get('/warehouse', async (req, res) => {
-
-    let ubication = await warehouse.findAll();
-    res.json(ubication)
+const express = require('express'),
+    app = express(),
+    {check, validationResult, body} = require('express-validator'); 
 
 
+// local resources    
+const {warehouseRepository} = require('../repositories/index'),
+    { checkWarehouse } = require('../validations/validator');
+
+
+app.get('/warehouse',  (req, res) => {
+    warehouseRepository.findAll()
+        .then(warehouseEntities => res.json(warehouseEntities))
+        .catch(error => res.status(400).json(error))
 });
 
-app.post('/warehouse',[checkWarehouse], async (req, res) => {
-
+app.post('/warehouse',[checkWarehouse], (req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
     };
     
+    const body=  req.body;
     
-    let body=  req.body;
-    
-
-    let ubicationCreate = await warehouse.create({
-        nameContainer: body.name
+    warehouseRepository.create({
+        name: body.name
     }).then(ubication => {
         res.json(ubication)
     }).catch(error=>{
@@ -34,38 +35,34 @@ app.post('/warehouse',[checkWarehouse], async (req, res) => {
 
 });
 
-app.put('/warehouse/:name', [checkWarehouse] ,async (req, res) => {
+app.put('/warehouse/:id', [checkWarehouse] ,async (req, res) => {
 
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).json({errors: errors.array()})
     };
 
-    const name = req.params.name;
+    const id = req.params.id;
     const body = req.body
 
 
-    let warehouseModify= await warehouse.update({nameContainer : body.name  },{where: {nameContainer: name}}
-        
-        ).then(nameModify => {res.json(nameModify)
-        }).catch(err => {res.json(err)});
-  
-  });
+    warehouseRepository.update(
+        {name: body.name
+        },{where: {id}})
+        .then(warehouseChange => res.json(warehouseChange))
+        .catch(error=>  res.status(400).json(error))  
+});
 
-app.delete('/warehouse/:name', async (req, res) => {
+app.delete('/warehouse/:id', (req, res) => {
 
-    let name = req.params.name;
-    let warehouseDelete= await warehouse.destroy({where: {nameContainer: name}}
-        ).then(nameDelete => {res.json(nameDelete)
-        }).catch(err => {res.json(err)});
+    const id = req.params.id;
+    const body= req.body;
 
-
-  
-  });
-
-
-
-
-
+        warehouseModel.update({
+            status: body.status
+            },{where: {id}})
+            .then(nameDelete => res.json(nameDelete))
+            .catch(error => res.status(400).json(error));  
+});
 
 module.exports = app

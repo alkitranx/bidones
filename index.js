@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 
 
-require('./BD/config');
+require('./models/config');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
