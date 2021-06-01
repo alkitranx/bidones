@@ -5,7 +5,7 @@ const express = require ('express'),
 
 // local resources
   const { productRepository } = require('../repositories/index'),
-  { checkType, checkCode, checkDescription } = require('../validations/validator');
+  { checkType, checkCode, checkDescription } = require('../validations/productValidations');
 
 app.get('/products', (req, res) => {
 

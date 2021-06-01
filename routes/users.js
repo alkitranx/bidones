@@ -9,7 +9,7 @@ const express = require ('express'),
 
 // local resources
 
-const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/validator'),
+const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/userValidations'),
   {userModel}= require('../models/config'),
   {userRepository}= require('../repositories/index');
 

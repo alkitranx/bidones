@@ -1,18 +1,21 @@
-const express = require('express');
-const app = express();0 
-const {movement, product} = require('../models/config');
-const {checkUbication, checkMovement, checkProtocol, checkQuantity, checkProduct, checkMeasure} = require('../validations/validator')
-const {check, validationResult, body} = require('express-validator');
+// Global packages
+const express = require('express'),
+    app = express(),
+    {validationResult, body} = require('express-validator');
+
+// Locar resources    
+const {movementRepository} = require('../repositories/index'),
+    {checkUbication, checkMovement, checkProtocol, checkQuantity, checkProduct, checkMeasure} = require('../validations/movementValidations');
+
 
 
 app.get('/movements', async (req, res) => {
-
-const movements =   await movement.findAll().then(allMovements => {res.json(allMovements)})
-    
-
+    movementRepository.findAll()
+    .then(allMovements => res.json(allMovements))
+    .catch(error => res.status(400).json(error))
 });
 
-app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity, checkUbication, checkMovement], async (req, res) => {
+app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity, checkUbication, checkMovement], (req, res) => {
 
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -20,55 +23,18 @@ app.post('/movements', [checkMeasure, checkProduct, checkProtocol, checkQuantity
     };
    
     const body = req.body;
-  
-   /*  const idProduct = await product.findAll({attributes: ['idProduct'],where: {codProduct: body.product } })
-    .then(idpro => { movement.create({
-        productId: idpro[0].idProduct,
-        protocole : body.protocole,
-        Quantity: body.quantity,
-        Measure: body.measure,
-        userId: body.user,
-        warehouseId: body.warehouse,
-        tipeMovement: body.tipemovement})})
-    .then(movement => {res.json('movimiento registrado')})
-    .catch(err=> { res.json(err)})*/
 
-    const egresoMovement = -body.quantity
-       
-     if(body.tipemovement === 'EGRESO'){
-        movement.create({
+        movementRepository.create({
             productId : body.product,
-            protocole : body.protocole,
-            Quantity: egresoMovement,
-            Measure: body.measure,
+            protocol : body.protocol,
+            quantity: body.quantity,
+            measure: body.measure,
             userId: body.user,
             warehouseId: body.warehouse,
-            tipeMovement: body.tipemovement}).then(movement => {res.json(movement)})
-            .catch(error => {
-                res.json(error)
-            })
+            type: body.type})
+            .then(movement => res.json(movement))
+            .catch(error => res.status(400).json(error))
 
-
-    }
-    if(body.tipemovement === 'INGRESO'){
-        movement.create({
-            productId : body.product,
-            protocole : body.protocole,
-            Quantity: body.quantity,
-            Measure: body.measure,
-            userId: body.user,
-            warehouseId: body.warehouse,
-            tipeMovement: body.tipemovement}).then(movement => {res.json(movement)})
-            .catch(error => {
-                res.json(error)
-            })
-
-
-    }
-
-
-    
-    
 });
 
 app.put('/movements/:id', [checkMeasure, checkProduct, checkProtocol, checkQuantity, checkUbication, checkMovement] ,async (req, res) => {
@@ -76,37 +42,34 @@ app.put('/movements/:id', [checkMeasure, checkProduct, checkProtocol, checkQuant
     const id = req.params.id;
     const body = req.body;
 
-    await movement.update({ 
-        productId : body.product,
-        protocol : body.protocol,
-        quantity: body.quantity,
-        measure: body.measure,
-        userId: body.user,
-        warehouseId: body.warehouse,
-        typeMovement: body.tipemovement}, 
-        {where: {id: id}}).then(updateMovement => res.json(updateMovement))
-        .catch(error => res.json(error))
+        movementRepository.update({ 
+            productId : body.product,
+            protocol : body.protocol,
+            quantity: body.quantity,
+            measure: body.measure,
+            userId: body.user,
+            warehouseId: body.warehouse,
+            type: body.type}, 
+            {where: {id: id}})
+            .then(movementUpdate => res.json(movementUpdate))
+            .catch(error => res.status(400).json(error))
 
 
 
-})
+});
 
 
 
-app.delete('/movements/:id', async (req, res) => {
+app.delete('/movements/:id', (req, res) => {
 
-    const id = req.params.id
+    const id = req.params.id,
+        body = req.body;
 
-    await movement.destroy({where: {id: id}})
-        .then(deleteMovement => res.json(deleteMovement))
-        .catch(error => res.json(error))
-
-})
-
-
-
-
-
-
+        movementRepository.update(
+            {status: body.status
+            },{where: {id: id}})
+            .then(deleteMovement => res.json(deleteMovement))
+            .catch(error => res.json(error))
+});
 
 module.exports = app;

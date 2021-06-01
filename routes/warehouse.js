@@ -2,12 +2,12 @@
 
 const express = require('express'),
     app = express(),
-    {check, validationResult, body} = require('express-validator'); 
+    {validationResult} = require('express-validator'); 
 
 
 // local resources    
 const {warehouseRepository} = require('../repositories/index'),
-    { checkWarehouse } = require('../validations/validator');
+    { checkWarehouse } = require('../validations/warehouseValidations');
 
 
 app.get('/warehouse',  (req, res) => {

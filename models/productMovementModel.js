@@ -31,7 +31,11 @@ module.exports = (sequelize, type) => {
             allowNull: false
         
         },
-        typeMovement: {
+        status:{
+            type: DataTypes.ENUM('active', 'inactive'),
+            defaultValue: 'active'            
+        },
+        type: {
             type: DataTypes.ENUM,
             values:['input', 'output'],
             allowNull: false            
