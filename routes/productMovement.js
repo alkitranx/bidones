@@ -1,7 +1,7 @@
 // Global packages
 const express = require('express'),
     app = express(),
-    {validationResult, body} = require('express-validator');
+    {validationResult} = require('express-validator');
 
 // Locar resources    
 const {movementRepository} = require('../repositories/index'),
@@ -9,7 +9,7 @@ const {movementRepository} = require('../repositories/index'),
 
 
 
-app.get('/movements', async (req, res) => {
+app.get('/movements', (req, res) => {
     movementRepository.findAll()
     .then(allMovements => res.json(allMovements))
     .catch(error => res.status(400).json(error))
@@ -50,7 +50,7 @@ app.put('/movements/:id', [checkMeasure, checkProduct, checkProtocol, checkQuant
             userId: body.user,
             warehouseId: body.warehouse,
             type: body.type}, 
-            {where: {id: id}})
+            {where: {id}})
             .then(movementUpdate => res.json(movementUpdate))
             .catch(error => res.status(400).json(error))
 
