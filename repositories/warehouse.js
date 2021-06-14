@@ -9,7 +9,6 @@ function create(payload) {
 }
 
 function update(payload, condition ) {
-    console.log(payload, condition)
     return warehouseModel.update(payload, condition)
 }
 

@@ -10,6 +10,7 @@ const express = require ('express'),
 // local resources
 
 const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/userValidations'),
+  {validateJwt}= require('../validations/validateJwt'),
   {userModel}= require('../models/config'),
   {userRepository}= require('../repositories/index');
 
@@ -62,7 +63,7 @@ app.put('/users/:id', [checkEmail, checkName, checkLastName] , async (req, res) 
      
 
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id',[validateJwt] ,(req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()){
       return res.status(400).json({errors: errors.array()})

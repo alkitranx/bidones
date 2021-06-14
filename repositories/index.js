@@ -3,5 +3,6 @@ module.exports = {
     productRepository: require('./product'),
     warehouseRepository: require('./warehouse'),
     movementRepository: require('./productMovement'),
-    stockRepository: require('./stock')
+    stockRepository: require('./stock'),
+    loginRepository: require('./login')
 }   
