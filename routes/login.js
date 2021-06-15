@@ -19,13 +19,13 @@ app.post('/login' ,[checkEmail, checkPassword], async (req, res) => {
     const user=    await userModel.findOne({where:{email}}) //TODO cambiar los mensajes por llos correctos - verificar estados//
     const validatePassword= bcrypt.compareSync(password, user.password);
         if(!user) {
-            return res.status(500).json({msg:'usuario y/o contraseña incorrecto'})
+            return res.status(400).json({msg:'usuario y/o contraseña incorrecto'})
         };
         if(user.status === 'inactive') {
-            return res.status(500).json({msg:'usuario y/o contraseña incorrecto-usuario inactivo'})
+            return res.status(400).json({msg:'usuario y/o contraseña incorrecto-usuario inactivo'})
         };
         if(!validatePassword){
-            return res.status(500).json({msg:'usuario y/o contraseña incorrecto- password incorrecto'})
+            return res.status(400).json({msg:'usuario y/o contraseña incorrecto- password incorrecto'})
         };
 
         //generando jwt

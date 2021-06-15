@@ -18,7 +18,7 @@ const generateJwt = (uid) => {
     return new Promise((resolve, reject) => {
 
         const payload = {uid};
-        const secret= "nuevaclave"
+        const secret = process.env.SECRET_KEY
 
         jwt.sign(payload, secret, {
             expiresIn: '1H'
