@@ -5,8 +5,9 @@ const express = require('express'),
 
 // local resources
 const {checkPassword, checkEmail}= require('../validations/loginValidations'),
-    {loginRepository}=require('../repositories/index'),
-    {userModel}= require('../models/config');
+    userRepository =require('../repositories/user'),
+    loginService = require('../services/login');
+    
 
 
 app.post('/login' ,[checkEmail, checkPassword], async (req, res) => {
@@ -16,23 +17,28 @@ app.post('/login' ,[checkEmail, checkPassword], async (req, res) => {
     };
 
     const {email, password} = req.body;
-    const user=    await userModel.findOne({where:{email}}) //TODO cambiar los mensajes por llos correctos - verificar estados//
-    const validatePassword= bcrypt.compareSync(password, user.password);
-        if(!user) {
-            return res.status(400).json({msg:'usuario y/o contraseña incorrecto'})
-        };
-        if(user.status === 'inactive') {
+    const user= await userRepository.findByEmail(email);
+    const passwordValidated= bcrypt.compareSync(password, user.password);
+    
+        if (!passwordValidated) {
+            return res.status(400).json({msg:'password incorrecto'})
+        }
+        else if(!user) {
+            return res.status(400).json({msg:'usuario incorrecto'})
+        }
+        else if(user.status === 'inactive') {
             return res.status(400).json({msg:'usuario y/o contraseña incorrecto-usuario inactivo'})
-        };
-        if(!validatePassword){
-            return res.status(400).json({msg:'usuario y/o contraseña incorrecto- password incorrecto'})
-        };
-
+        }
+        
         //generando jwt
 
-    const token = loginRepository.generateJwt(user.id)
-        .then(token => res.json({user, token}))
-        .catch(err=>res.status(400).json(err));
+    const token = loginService.generateJwt({
+        id:user.id,
+        email: user.email,
+        role: user.role
+    })
+    .then(token => res.json({user, token}))
+    .catch(err=>res.status(400).json(err));
 
 
 

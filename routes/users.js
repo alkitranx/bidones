@@ -10,8 +10,7 @@ const express = require ('express'),
 // local resources
 
 const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/userValidations'),
-  {validateJwt}= require('../validations/validateJwt'),
-  {userModel}= require('../models/config'),
+  {validateJwt, validateAdminJWT}= require('../validations/validateJwt'),
   {userRepository}= require('../repositories/index');
 
 app.get('/users', (req, res) => {
@@ -63,7 +62,7 @@ app.put('/users/:id', [checkEmail, checkName, checkLastName] , async (req, res) 
      
 
 
-app.delete('/users/:id',[validateJwt] ,(req, res) => {
+app.delete('/users/:id',[validateAdminJWT] ,(req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()){
       return res.status(400).json({errors: errors.array()})
@@ -72,11 +71,11 @@ app.delete('/users/:id',[validateJwt] ,(req, res) => {
   const id= req.params.id;
   const body = req.body;
 
-  userModel.update({
-    status: body.status
+  return userRepository.update({
+    status: 'inactive'
     },{where: {id}})
     .then(userDelete => res.json(userDelete))
-    .catch(err => res.status(400).json(err))
+    .catch(error => res.status(500).json(error))
 });
 
 module.exports = app;

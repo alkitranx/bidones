@@ -15,9 +15,15 @@ function update(payload, condition ) {
 }
 
 
+function findByEmail(email){
+    return userModel.findOne({where:{email}})
+}
+
+
 
 module.exports = {
     findAll,
     create,
-    update
+    update,
+    findByEmail
 }

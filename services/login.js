@@ -1,23 +1,9 @@
-const {userModel} = require('../models/config');
 const jwt = require('jsonwebtoken');
 
-// TODO hacer que esta funcion trabaje revisar documentacion//
-function login(payload) {   
-    
-    const user= userModel.findOne(payload)
-    if(!user){
-        res.status(400).json({msg:'error de usuarioemail'})
-    }
-
-
-}
-
-
-const generateJwt = (uid) => {
+const generateJwt = (payload) => {
 
     return new Promise((resolve, reject) => {
 
-        const payload = {uid};
         const secret = process.env.SECRET_KEY
 
         jwt.sign(payload, secret, {
@@ -39,10 +25,4 @@ const generateJwt = (uid) => {
 
 }
 
-
-
-
-module.exports= {
-    login,
-    generateJwt
-}
+module.exports = {generateJwt}
