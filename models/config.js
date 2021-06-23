@@ -32,9 +32,6 @@ warehouse.hasMany(movement);
 
 
 
-
-
-
 /*sequelize.sync({force: true})
 .then(() => {
     console.log('Tablas sincronizadas')

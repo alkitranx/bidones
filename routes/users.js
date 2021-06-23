@@ -21,7 +21,7 @@ app.get('/users', (req, res) => {
 });
 
 
-app.post('/users',[ checkName, checkPassword, checkLastName, checkEmail], (req, res) => {
+app.post('/users',[ validateAdminJWT, checkName, checkPassword, checkLastName, checkEmail], (req, res) => {
   const errors = validationResult(req);
   if(!errors.isEmpty()){
       return res.status(400).json({errors: errors.array()})
@@ -39,7 +39,7 @@ app.post('/users',[ checkName, checkPassword, checkLastName, checkEmail], (req, 
       .catch(error => res.status(400).json(error));
 });
 
-app.put('/users/:id', [checkEmail, checkName, checkLastName] , async (req, res) => {
+app.put('/users/:id', [validateAdminJWT, checkEmail, checkName, checkLastName] , async (req, res) => {
 
   const errors = validationResult(req);
   if(!errors.isEmpty()){
