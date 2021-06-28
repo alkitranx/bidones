@@ -37,6 +37,9 @@ const validateAdminJWT = (req, res, next) => {
             if(error){
                 return res.status(401).json({msg: 'el token no es valido'})
             }
+            else if(data.status !== 'active'){
+                return res.status(401).json({msg: 'usuario no existente'})
+            }
             else if(data.role !== 'admin'){
                 return res.status(401).json({msg:'usuario no autorizado'})
             }else{

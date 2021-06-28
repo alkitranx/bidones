@@ -10,7 +10,7 @@ const express = require ('express'),
 // local resources
 
 const {checkEmail, checkName, checkPassword, checkLastName} = require('../validations/userValidations'),
-  {validateJwt, validateAdminJWT}= require('../validations/validateJwt'),
+  {validateAdminJWT}= require('../validations/validateJwt'),
   {userRepository}= require('../repositories/index');
 
 app.get('/users', (req, res) => {

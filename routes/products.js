@@ -31,7 +31,7 @@ app.post('/products',[ checkType, checkCode, checkDescription], (req, res) => {
       code: body.code,
       description: body.description})
        .then(createProduct => res.json(createProduct))
-       .catch(err => res.json.status(400).json(err))       
+       .catch(err => res.status(400).json(err))       
        
 });
 
